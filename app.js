@@ -3,16 +3,17 @@ const hbs = require("hbs");
 const app = express();
 
 app.set("view engine", hbs);
+app.use(express.static(__dirname + "/views"));
 
 // inaccessDate = () => {
 //   let requestAt = new Date();
 //   let dh = requestAt.getHours();
 //   console.log("dh", dh);
-//   if (dh > 17 && dh < 8) {
-//     return alert("sorry sorry sorry");
+//   if (dh > 17 || dh < 8) {
+//     res.redirect("/oureservices");
 //   } else {
-//     next();
-//   }
+//     res.render("home.hbs");
+//     }
 // };
 
 // accessDate = () => {
@@ -25,24 +26,24 @@ app.set("view engine", hbs);
 //   next();
 // };
 
-app.get("/home", function(req, res, next){
+app.get("/home", function(req, res, next) {
   let requestAt = new Date();
   let dh = requestAt.getHours();
   console.log("dh", dh);
-  if (dh > 17 && dh < 8) {
-    res.redirect("oureservices.hbs");
+  if (dh > 17 || dh < 8) {
+    res.sendFile(__dirname + "/views/oureservices.html");
   } else {
-    res.render("home.hbs");
+    // res.render("home.hbs");
+    res.sendFile(__dirname + "/views/home.html");
   }
-  next();
 });
 
-// app.get("/oureservices", (req, res) => {
-//   res.render("oureservices.hbs");
-// });
+app.get("/oureservices", (req, res) => {
+  res.render("oureservices.html");
+});
 
 app.get("/contact", (req, res) => {
-  res.render("contact.hbs");
+  res.sendFile(__dirname + "/views/contact.html");
 });
 
 app.listen(3000, err => {
